@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from landingPage.views import lpView 
+from plantilla.views import plantilla
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('plantilla/', plantilla),
     path('', lpView)
 ]

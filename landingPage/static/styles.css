@@ -180,6 +180,9 @@ body {
     height: 190px;
     background-color: #f4f4fa;
     display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .ld-footer-logo{
@@ -232,4 +235,20 @@ display: flex;
 .jb-logo-footer{
     width: 120px;
     height: 110px;
+}
+
+.app-content {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.template-form {
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 15%;
+    display: flex;
+    flex-direction: column;
+    
 }

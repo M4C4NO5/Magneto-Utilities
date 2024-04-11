@@ -1,4 +1,4 @@
-jsdelivr{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +31,7 @@ jsdelivr{% load static %}
             <nav class="header-nav">
                 <ul>
                     <li>
-                        <a href="" class="ld-main-header-a" >Crear una Plantilla</a>
+                        <a href="plantilla/" class="ld-main-header-a" >Crear una Plantilla</a>
             
                     </li>
     
@@ -63,6 +63,8 @@ jsdelivr{% load static %}
             </nav>
 
         </header>
+    {% block content %}
+
         <section class="banner-section">
             <p>Crear las Vacantes que tu empresa necesita nunca fue tan fácil. <br>
                 Selecciona + para comenzar</p>
@@ -87,6 +89,8 @@ jsdelivr{% load static %}
         <section class="vc-creation-section">
             <a href="" class="vc-creation-button">+</a>
         </section>
+        {% endblock content %}
+
         <footer class="ld-footer">
             <div class="logo-social-footer">
                 <img src="{% static 'images/Logo.png'%}" alt="footer-logo" class="ld-footer-logo">
@@ -120,7 +124,7 @@ jsdelivr{% load static %}
             </div>
             
         </footer>
-        
+         
         
     </body>
 </html>

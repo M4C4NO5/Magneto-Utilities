@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path
 from landingPage.views import lpView 
 from plantilla.views import plantilla
-
+from editPage.views import step1, step2
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('plantilla/', plantilla),
-    path('', lpView)
+    path('', lpView),
+    path('nueva_vacante/paso1/', step1),
+    path('nueva_vacante/paso1/paso2/', step2)
 ]

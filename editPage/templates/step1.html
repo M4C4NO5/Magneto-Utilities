@@ -5,16 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'editPage.css' %}">
+
+    <!-- Boostrap CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
+    <!-- Lato font CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
     <script src="{% static 'scripts/editPage.js'%}"></script>
+
+
+
     <title>Crea tu vacante</title>
 </head>
 <body>
@@ -26,8 +31,8 @@
             </a>
             <div class="step-indicator">
                 <p>
-                    paso 1 de 3 <br>
-                    <span>Información Básica</span>
+                    paso {{current_step}} de 3 <br>
+                    <span>{{step_text}}</span>
                 </p>
                 
             </div>
@@ -45,7 +50,7 @@
 
     <div class="pr-div">
         <div class="pr-bar">
-            <div class="pr" id="progress"></div>
+            <div class="pr" id="prBar"></div>
         </div>
         
     </div>
@@ -54,6 +59,12 @@
 
         <div class="app-content">
             {% block content %}
+
+            {% if current_step == 1%}
+            <script>
+                progressIn(1);
+            </script>
+            {% endif %}
 
             <h2>Completa los datos de la vacante</h2>
             <form method="POST" enctype="multipart/form-data" class="step1-form">{% csrf_token %}
@@ -67,7 +78,7 @@
                 <div class="images-inputs">
                     
                 </div>
-                <button type="submit" class="submit-btn" onclick="progressIn()">
+                <button type="submit" class="submit-btn">
                     Siguiente
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>

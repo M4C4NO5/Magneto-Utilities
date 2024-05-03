@@ -14,7 +14,7 @@ function zoomIn() {
     div.style.height = (height / 1.1) + 'px';
   }
   
-  function progressIn(step){
+function progressIn(step){
     var div = document.getElementById('prBar');
     div.style.transition = 'width 0.5s ease-in-out';
 
@@ -28,8 +28,22 @@ function zoomIn() {
       }
         
     }, 300); 
+    
+}
+
+function updatePreview() {
+    var title = document.querySelector('input[name="title"]').value;
+    var desc = document.querySelector('textarea[name="desc"]').value;
+    var url = document.querySelector('input[name="url"]').value;
+
+    // Construir la vista previa
+    var previewContent = "<h2>" + title + "</h2>";
+    previewContent += "<p>" + desc + "</p>";
+    previewContent += "<p>" + url + "</p>";
+
+    // Actualizar el contenido de la vista previa
+    document.getElementById('vacancy-container').innerHTML = previewContent;
+    console.log("Hello");
+}
 
 
-    
-    
-  }

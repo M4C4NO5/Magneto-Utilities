@@ -11,11 +11,13 @@ from plantilla.models import TemplateModel
 def step1(request):
     context = {}
     savedTemplate = TemplateModel.objects.latest('id')
-    default_font = savedTemplate.font
-    default_font_size = savedTemplate.font_size
+    default_name = savedTemplate.name
+    default_title = savedTemplate.title
+    default_desc = savedTemplate.desc
     default_color = savedTemplate.color
+    default_url = savedTemplate.url
 
-    baseTemplate = Template(default_font, default_font, default_font_size)
+    baseTemplate = Template(default_name,default_title,default_desc,default_url,default_color)
 
     editableTemplate = baseTemplate.clone()
     if (request.method == 'POST'):

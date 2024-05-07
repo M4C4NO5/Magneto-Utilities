@@ -8,16 +8,13 @@ def plantilla(request):
     return render(request, 'plantilla.html')
 
 class Template:
-    def __init__(name, title, url,font, font_size, color, description,self):
+    def __init__(self, name, title,description, url, color):
         self.name = name
         self.title = title
-        self.url = url
         self.desc = description
-        self.font = font
-        self.font_size = font_size
+        self.url = url
         self.color = color
-    
-    
+
     def clone(self):
         return copy.deepcopy(self)
 

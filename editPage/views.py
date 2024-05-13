@@ -11,16 +11,9 @@ from plantilla.models import TemplateModel
 def step1(request):
     context = {}
     savedTemplate = TemplateModel.objects.latest('id')
-    default_font = savedTemplate.font
-    default_font_size = savedTemplate.font_size
-    default_color = savedTemplate.color
-
-    baseTemplate = Template(default_font, default_font, default_font_size)
-
-    editableTemplate = baseTemplate.clone()
+ 
     if (request.method == 'POST'):
-        
-        
+              
         return redirect('paso2/')
     
 

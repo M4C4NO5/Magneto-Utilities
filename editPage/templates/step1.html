@@ -21,6 +21,15 @@
 
 
     <title>Crea tu vacante</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 100vh;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -71,7 +80,7 @@
             <form method="POST" enctype="multipart/form-data" class="step1-form">{% csrf_token %}
                 <div class="text-inputs">
                     <input type="text" name="title" placeholder="Encabezado de la vacante" maxlength="100" oninput="updatePreview()">
-                    <textarea name="desc" oninput="updatePreview()">Cuerpo de la Vacante</textarea>
+                    <textarea name="desc" placeholder="Cuerpo de la vacante" oninput="updatePreview()"></textarea>
                     <input type="text" name="url" placeholder="URL de postulación" maxlength="100" oninput="updatePreview()">
 
                 </div>
@@ -90,7 +99,6 @@
         <div class="preview">
             <h2>Plantilla actual: {{savedTemplate.name}}</h2>
             <div class="vacancy-preview" id="vacancy-container">
-                
                 
             </div>
 

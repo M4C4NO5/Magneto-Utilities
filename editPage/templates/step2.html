@@ -9,6 +9,22 @@
             <script>
                 progressIn(2);
             </script>
+            <script>
+              function updatePreview() {
+                  var title = "{{title}}";
+                  var desc = "{{desc}}";
+                  var url = "{{url}}";
+
+                  // Construir la vista previa
+                  var previewContent = "<h2>" + title + "</h2>";
+                  previewContent += "<p>" + desc + "</p>";
+                  previewContent += "<p>" + url + "</p>";
+
+                  // Actualizar el contenido de la vista previa
+                  document.getElementById('vacancy-container').innerHTML = previewContent;
+              }
+              updatePreview();
+            </script>
 {% endif %}
 
 <h2>Aquí podrás editar la plantilla</h2>
@@ -89,4 +105,5 @@
           </svg>
     </button>
   </div>
+
 {% endblock %}

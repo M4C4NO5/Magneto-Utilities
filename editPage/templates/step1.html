@@ -97,9 +97,24 @@
 
         </div>
         <div class="preview">
-            <h2>Plantilla actual: {{savedTemplate.name}}</h2>
-            <div class="vacancy-preview" id="vacancy-container">
+
+            
+            <h2>Plantilla actual: {{template.name}}</h2>
+            <div class="vacancy-preview" id="vacancy-prev" style="--vc-preview-emphasis-color: {{template.color}}; --vc-text-font-color: {{template.font_color}}">
+                {% if template.brand_logo %}
+                <div class="vacancy-logo">
+                    <img src="{{template.brand_logo.url}}" alt="">
+                </div>
+                     
+                {% endif  %}
                 
+                <div class="vacancy-container" id="vacancy-container" style="--vc-text-font: {{template.font}}">
+                   
+
+                </div>
+                <div class="back-square">
+
+                </div>
             </div>
 
 
@@ -130,8 +145,8 @@
 
         // Construir la vista previa
         var previewContent = "<h2>" + title + "</h2>";
-        previewContent += "<p>" + desc + "</p>";
-        previewContent += "<p>" + url + "</p>";
+        previewContent += "<h3>" + desc + "</h3>";
+        previewContent += "<h4>" + url + "</h4>";
 
         // Actualizar el contenido de la vista previa
         document.getElementById('vacancy-container').innerHTML = previewContent;

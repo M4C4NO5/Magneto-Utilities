@@ -8,7 +8,7 @@ def plantilla(request):
     return render(request, 'plantilla.html')
 
 class Template:
-    def __init__(self, name, title,description, url, color, font, font_color):
+    def __init__(self, name, title,description, url, color, font, font_color, brand_logo):
         self.name = name
         self.title = title
         self.desc = description
@@ -16,6 +16,7 @@ class Template:
         self.color = color
         self.font = font
         self.font_color = font_color
+        self.brand_logo = brand_logo
 
 
     def clone(self):

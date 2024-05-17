@@ -18,18 +18,13 @@
 
     <script src="{% static 'scripts/editPage.js'%}"></script>
 
+    <!--HTML CANVAS LIBRARY TO GENERATE IMAGES-->    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
 
 
     <title>Crea tu vacante</title>
-    <style>
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: end;
-            height: 100vh;
-            flex-direction: column;
-        }
-    </style>
+  
 </head>
 <body>
     <header class="main-header">
@@ -79,9 +74,10 @@
             
             <form method="POST" enctype="multipart/form-data" class="step1-form">{% csrf_token %}
                 <div class="text-inputs">
-                    <input type="text" name="title" placeholder="Encabezado de la vacante" maxlength="100" oninput="updatePreview()">
-                    <textarea name="desc" placeholder="Cuerpo de la vacante" oninput="updatePreview()"></textarea>
-                    <input type="text" name="url" placeholder="URL de postulación" maxlength="100" oninput="updatePreview()">
+                    <input type="text" name="title" placeholder="Encabezado de la vacante" maxlength="50" oninput="updatePreview()">
+                    <textarea name="desc" placeholder="Cuerpo de la vacante" oninput="updatePreview()" maxlength="340" id="vc-body" ></textarea>
+                    
+                    <input type="text" name="url" placeholder="Ciudad donde aplica" maxlength="50" oninput="updatePreview()">
 
                 </div>
                
@@ -99,22 +95,64 @@
         <div class="preview">
 
             
-            <h2>Plantilla actual: {{template.name}}</h2>
-            <div class="vacancy-preview" id="vacancy-prev" style="--vc-preview-emphasis-color: {{template.color}}; --vc-text-font-color: {{template.font_color}}">
+            <h2>Plantilla: {{template.name}}</h2>
+            <div class="vacancy-preview" id="vacancy-prev" style="--vc-preview-emphasis-color: {{template.color}}; --vc-text-font-color: {{template.font_color}}; ">
                 {% if template.brand_logo %}
                 <div class="vacancy-logo">
+                   
                     <img src="{{template.brand_logo.url}}" alt="">
                 </div>
                      
                 {% endif  %}
                 
                 <div class="vacancy-container" id="vacancy-container" style="--vc-text-font: {{template.font}}">
+
                    
 
                 </div>
                 <div class="back-square">
-
+                    {% if page_obj %}
+                    {% for avatar in page_obj %}
+                        <img src="{{avatar.avatar_image.url}}" alt="Avatar" class="vacancy-avatar">
+                    {% endfor %}
+                        {% if current_step == 1%}
+                        <div class="pagination">
+                            <div class="step-links">
+                                {% if page_obj.has_previous %}
+                             
+                                   
+                                    <a href="?page={{ page_obj.previous_page_number }}">
+                                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16" style="margin-right: 5px;">
+                                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                                          </svg>
+                                          Prev
+                                    </a>
+                                    
+                                {% endif %}
+        
+                                <span class="current">
+                                    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                                </span>
+        
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}">
+                                        Sig
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16" style="margin-left: 5px;">
+                                        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+                                        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+                                      </svg></a>
+                                    
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                        
+       
                 </div>
+                
             </div>
 
 
@@ -150,9 +188,14 @@
 
         // Actualizar el contenido de la vista previa
         document.getElementById('vacancy-container').innerHTML = previewContent;
-        console.log("Hello");
+
+     
+
+        
     }
+    
     </script>
+   
     
 </body>
 </html>

@@ -1,21 +1,25 @@
-function zoomIn() {
-    var div = document.getElementById('vacancy-prev');
-    var width = div.offsetWidth;
-    var height = div.offsetHeight;
-
-    var div = document.getElementById('vacancy-prev');
-
-    div.style.width = (width * 1.1) + 'px'; 
-    div.style.height = (height * 1.1) + 'px';
+  var scale = 1;
+  var minScale = 1 ; 
+  var maxScale = 1; 
+  function zoomIn() {
+    if (scale < maxScale) {
+      scale *= 1.1;
+      if (scale > maxScale) scale = maxScale;
+      applyZoom();
+    }
   }
-  
+
   function zoomOut() {
+    if (scale > minScale) {
+      scale /= 1.1;
+      if (scale < minScale) scale = minScale;
+      applyZoom();
+    }
+  }
+
+  function applyZoom() {
     var div = document.getElementById('vacancy-prev');
-    div.style.width = (div.offsetWidth / 1.1) + 'px';
-    div.style.height = (div.offsetHeight / 1.1) + 'px';
-    h2.style.width = (h2.offsetWidth / 1.1) + 'px';
-    h3.style.width = (h2.offsetWidth / 1.1) + 'px';
-    h4.style.width = (h2.offsetWidth / 1.1) + 'px';
+    div.style.transform = 'scale(' + scale + ')';
   }
   
 function progressIn(step){
@@ -33,6 +37,26 @@ function progressIn(step){
         
     }, 300); 
     
+}
+
+
+function disablePagination(){
+    div = getElementById('pag');
+    div.style.display = 'none';
+}
+
+                            
+
+function generateImage() {
+  var element = document.getElementById('vacancy-prev');
+  
+    html2canvas(element, {
+      onrendered: function(canvas) {
+          var imgData = canvas.toDataURL('image/png');
+          document.getElementById('imgData').value = imgData;
+          document.getElementById('imgForm').submit();
+      }
+  });
 }
 
 

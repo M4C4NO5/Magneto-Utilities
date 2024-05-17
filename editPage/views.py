@@ -1,7 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, HttpResponse
 from plantilla.views import Template
 from plantilla.models import TemplateModel
-
+from django.core.paginator import Paginator
+from .models import Avatar
+from PIL import Image
+import io
+import base64
 
 # Create your views here.
 
@@ -13,13 +17,27 @@ def template_to_edit(request):
     if TemplateModel.objects.exists():
         savedTemplate = TemplateModel.objects.latest('id')
         default_name = savedTemplate.name
-        default_title = savedTemplate.title
-        default_desc = savedTemplate.desc
+        
+        
+        default_brand_logo = savedTemplate.brand_logo
+        if 'title' in request.session:
+            default_title = request.session['title']
+        else:
+            default_title = savedTemplate.title
+        if 'desc' in request.session:
+            default_desc = request.session['desc']
+        else:
+            default_desc = savedTemplate.desc
+        if 'url' in request.session:
+            default_url = request.session['url'] 
+        else:
+            default_url = savedTemplate.url       
+        
         if 'color' in request.session:
             default_color = request.session['color']
         else:
             default_color = savedTemplate.color
-        default_url = savedTemplate.url
+        
         if 'font' in request.session:
             default_font = request.session['font']
         else:
@@ -29,11 +47,18 @@ def template_to_edit(request):
         else:
             default_font_color = savedTemplate.font_color
 
-    baseTemplate = Template(default_name,default_title,default_desc,default_url,default_color, default_font, default_font_color)
+    baseTemplate = Template(default_name,default_title,default_desc,default_url,default_color, default_font, default_font_color, default_brand_logo)
     return baseTemplate.clone()
     
 def step1(request):
     context = {}
+    
+    queryset_paginator =   Paginator(Avatar.objects.all(), 1)
+    page_number = request.GET.get('page')
+    page_obj = queryset_paginator.get_page(page_number)
+    context['page_obj'] = page_obj
+    request.session['page_number'] = page_obj.number
+
     if 'font' in request.session:
         del request.session['font']
     if 'font_color' in request.session:
@@ -47,8 +72,12 @@ def step1(request):
         title=request.POST["title"]
         desc =request.POST["desc"]
         url =request.POST["url"]
-        return redirect(f'paso2/?title={title}&desc={desc}&url={url}')
+        request.session['title'] = title
+        request.session['desc'] = desc
+        request.session['url'] = url
+        return redirect(f'paso2/')
 
+    
 
     context['current_step'] = 1
     context['step_text'] = 'Información básica'
@@ -58,14 +87,15 @@ def step1(request):
 def step2(request):
     template = template_to_edit(request)
     context = {}
+
+    queryset_paginator = Paginator(Avatar.objects.all(), 1)
+    page_number = request.session.get('page_number', 1)
+    page_obj = queryset_paginator.get_page(page_number)
+    context['page_obj'] = page_obj
+
     context['current_step'] = 2
     context['step_text'] = 'Personalización'
-    title = request.GET.get('title', '')
-    desc = request.GET.get('desc', '')
-    url = request.GET.get('url', '')
-    template.title = title
-    template.desc = desc
-    template.url = url
+    context['template'] = template
 
     
 
@@ -76,13 +106,16 @@ def step2(request):
   
             template.font = font
             context['template'] = template
+            context['page_obj'] = page_obj
             request.session['font'] = font
             return render(request, 'step2.html', context)
+        
         if 'change-font-color' in request.POST:
 
             font_color = request.POST['change-font-color']
             template.font_color = font_color
             context['template'] = template
+            context['page_obj'] = page_obj
             request.session['font_color'] = font_color
             return render(request, 'step2.html', context)
         
@@ -90,11 +123,48 @@ def step2(request):
             color = request.POST['change-color']
             template.color = color
             context['template'] = template
+            context['page_obj'] = page_obj
             request.session['color'] = color
             return render(request, 'step2.html', context)
         
-        if 'next-step' in request.POST:
-            pass
+        
 
     context['template'] = template
     return render(request, 'step2.html', context)
+
+def step3(request):
+    template = template_to_edit(request)
+
+    if request.method == 'POST':
+
+        if 'imgData' in request.POST and isinstance(request.POST['imgData'], str):
+            data_url = request.POST['imgData']
+            # Separar correctamente el formato y el contenido base64
+            format, imgstr = data_url.split(';base64,')
+            # Decodificar la imagen base64 a bytes
+            image_data = base64.b64decode(imgstr)
+            
+            # Crear la imagen desde los bytes
+            image = Image.open(io.BytesIO(image_data))
+            response = HttpResponse(content_type="image/png")
+            image.save(response, "PNG")
+            response['Content-Disposition'] = f'attachment; filename="{template.title}.png"'
+            return response
+
+    
+    context = {}
+
+    queryset_paginator = Paginator(Avatar.objects.all(), 1)
+    page_number = request.session.get('page_number', 1)
+    page_obj = queryset_paginator.get_page(page_number)
+    context['page_obj'] = page_obj 
+
+
+    avatar_url = Avatar.objects.latest('id').avatar_image.url
+    context['current_step'] = 3
+    context['step_text'] = 'Descarga tu Vacante'
+    context['template'] = template
+    context['avatar_url'] = avatar_url
+
+
+    return render(request, 'step3.html', context)

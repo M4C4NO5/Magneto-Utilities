@@ -68,16 +68,35 @@
             <script>
                 progressIn(1);
             </script>
+            <script>
+                function updatePreview() {
+                var title = document.getElementById('vc-title').value;
+                var desc = document.getElementById('vc-body').value;
+                var city = document.getElementById('vc-city').value;
+            
+                // Reemplazar los saltos de línea con <br>
+                var formattedDesc = desc.replace(/\n/g, '<br>');
+            
+                var previewContent = "<h2>" + title + "</h2>";
+                previewContent += "<h3>" + formattedDesc + "</h3>";
+                previewContent += "<h4>" + city + "</h4>";
+            
+                document.getElementById('vacancy-container').innerHTML = previewContent;
+            } 
+            
+            window.onload = updatePreview;
+                
+            </script>
             {% endif %}
 
             <h2>Completa los datos de la vacante</h2>
             
             <form method="POST" enctype="multipart/form-data" class="step1-form">{% csrf_token %}
                 <div class="text-inputs">
-                    <input type="text" name="title" placeholder="Encabezado de la vacante" maxlength="50" oninput="updatePreview()">
+                    <input type="text" name="title" placeholder="Encabezado de la vacante" maxlength="50" oninput="updatePreview()" id="vc-title">
                     <textarea name="desc" placeholder="Cuerpo de la vacante" oninput="updatePreview()" maxlength="340" id="vc-body" ></textarea>
                     
-                    <input type="text" name="url" placeholder="Ciudad donde aplica" maxlength="50" oninput="updatePreview()">
+                    <input type="text" name="city" placeholder="Ciudad donde aplica" maxlength="50" oninput="updatePreview()" id="vc-city">
 
                 </div>
                
@@ -175,26 +194,7 @@
         </div>
 
     </section>
-    <script>
-        function updatePreview() {
-        var title = document.querySelector('input[name="title"]').value;
-        var desc = document.querySelector('textarea[name="desc"]').value;
-        var url = document.querySelector('input[name="url"]').value;
 
-        // Construir la vista previa
-        var previewContent = "<h2>" + title + "</h2>";
-        previewContent += "<h3>" + desc + "</h3>";
-        previewContent += "<h4>" + url + "</h4>";
-
-        // Actualizar el contenido de la vista previa
-        document.getElementById('vacancy-container').innerHTML = previewContent;
-
-     
-
-        
-    }
-    
-    </script>
    
     
 </body>

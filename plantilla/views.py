@@ -8,11 +8,11 @@ def plantilla(request):
     return render(request, 'plantilla.html')
 
 class Template:
-    def __init__(self, name, title,description, url, color, font, font_color, brand_logo):
+    def __init__(self, name, title,description, city, color, font, font_color, brand_logo):
         self.name = name
         self.title = title
         self.desc = description
-        self.url = url
+        self.city = city
         self.color = color
         self.font = font
         self.font_color = font_color

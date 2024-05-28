@@ -9,15 +9,19 @@
             <script>
                 progressIn(2);
             </script>
+           
             <script>
               function updatePreview() {
                   var title = "{{template.title}}";
-                  var desc = "{{template.desc}}";
-                  var url = "{{template.url}}";
+                  var desc = "{{ template.desc|escapejs }}";
+                  var city = "{{template.city}}";
+
+                  var formattedDesc = desc.replace(/\n/g, '<br>');
+                  console.log(formattedDesc)
 
                   var previewContent = "<h2>" + title + "</h2>";
-                  previewContent += "<h3>" + desc + "</h3>";
-                  previewContent += "<h4>" + url + "</h4>";
+                  previewContent += "<h3>" + formattedDesc + "</h3>";
+                  previewContent += "<h4>" + city + "</h4>";
 
                   document.getElementById('vacancy-container').innerHTML = previewContent;
                   
@@ -46,18 +50,21 @@
       <div class="accordion-body">
         Cambia la fuente:
 
-          
+         
          
                 <form method="POST" id="font-form" class="select-font-form">
                   {% csrf_token %}
-                  <select name="change-font" id="select-font" style="margin: 0 30px 0 10px;">  
-                        
-                      <option value="Arial" {% if template.font == 'Arial' %} selected {% endif %}>Arial</option>
-                      <option value="monospace" {% if template.font == 'monospace' %} selected {% endif %}>Monospace</option>
-                      <option value="Georgia" {% if template.font == 'Georgia' %} selected {% endif %}>Georgia</option>
-                      <option value="Helvetica" {% if template.font == 'Helvetica' %} selected {% endif %}>Helvetica</option>
-                      <option value="Tahoma" {% if template.font == 'Tahoma' %} selected {% endif %}>Tahoma</option>
-                  </select>
+                  <select name="change-font" id="select-font" style="margin: 0 30px 0 10px;">
+                    <option value="Arial" {% if template.font == 'Arial' %} selected {% endif %}>Arial</option>
+                    <option value="Helvetica" {% if template.font == 'Helvetica' %} selected {% endif %}>Helvetica</option>
+                    <option value="sans-serif" {% if template.font == 'sans-serif' %} selected {% endif %}>Sans-serif</option>
+                    <option value="Trebuchet MS" {% if template.font == 'Trebuchet MS' %} selected {% endif %}>Trebuchet MS</option>
+                    <option value="Garamond" {% if template.font == 'Garamond' %} selected {% endif %}>Garamond</option>
+                    <option value="Palatino" {% if template.font == 'Palatino' %} selected {% endif %}>Palatino</option>
+                    <option value="Lucida Sans" {% if template.font == 'Lucida Sans' %} selected {% endif %}>Lucida Sans</option>
+                    <option value="'Lato'" {% if template.font == 'Lato' %} selected {% endif %}>Lato</option>
+                </select>
+                
               </form>
               
    

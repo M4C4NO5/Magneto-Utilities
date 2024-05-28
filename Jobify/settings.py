@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'landingPage',
     'plantilla',
     'editPage',
+    'User',
+    'history'
 ]
 
 MIDDLEWARE = [

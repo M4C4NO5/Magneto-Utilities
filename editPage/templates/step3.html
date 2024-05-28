@@ -11,12 +11,15 @@
         <script>
             function updatePreview() {
                 var title = "{{template.title}}";
-                var desc = "{{template.desc}}";
-                var url = "{{template.url}}";
+                var desc = "{{ template.desc|escapejs }}";
+                var city = "{{template.city}}";
+
+                var formattedDesc = desc.replace(/\n/g, '<br>');
+                console.log(formattedDesc)
 
                 var previewContent = "<h2>" + title + "</h2>";
-                previewContent += "<h3>" + desc + "</h3>";
-                previewContent += "<h4>" + url + "</h4>";
+                previewContent += "<h3>" + formattedDesc + "</h3>";
+                previewContent += "<h4>" + city + "</h4>";
 
                 document.getElementById('vacancy-container').innerHTML = previewContent;
                 
